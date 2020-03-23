@@ -79,3 +79,4 @@ INSERT INTO Walks ([Date], Duration, WalkerId, DogId) VALUES ('03/18/2020', 45, 
 INSERT INTO Walks ([Date], Duration, WalkerId, DogId) VALUES ('03/20/2020', 45, 2,4);
 INSERT INTO Walks ([Date], Duration, WalkerId, DogId) VALUES ('03/12/2020', 45, 3,5);
 INSERT INTO Walks ([Date], Duration, WalkerId, DogId) VALUES ('03/21/2020', 45, 3,6);
+

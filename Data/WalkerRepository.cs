@@ -1,10 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using DogWalker.Models;
+using Microsoft.Data.SqlClient;
 
 namespace DogWalker.Data
 {
-    class WalkerRepository
+    public class WalkerRepository
     {
+        public SqlConnection Connection
+        {
+            get
+            {
+                string _connectionString = "Data Source=localhost\\SQLEXPRESS; Initial Catalog=LordsOfDogtown; Integrated Security=True";
+                return new SqlConnection(_connectionString);
+            }
+        }
+
+        public List<Walker> GetAllWalkers()
+        {
+            
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Id, n.Name
+                        FROM Walker w
+                        LEFT JOIN Neighborhood n
+                        ON w.NeighborhoodId = n.Id";
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Walker> allWalkers = new List<Walker>();
+
+
+                    while (reader.Read())
+                    {
+                        // Get ordinal returns us what "position" the Id column is in
+                        int idColumn = reader.GetOrdinal("Id");
+                        int idValue = reader.GetInt32(idColumn);
+
+                        int NameColumn = reader.GetOrdinal("Name");
+                        string NameValue = reader.GetString(NameColumn);
+
+                      
+
+                        int neighborhoodIdColumn = reader.GetOrdinal("NeighborhoodId");
+                        int neighborhoodValue = reader.GetInt32(neighborhoodIdColumn);
+
+                        int neighborhoodNameColumn = reader.GetOrdinal("Name");
+                        string neighborhoodNameValue = reader.GetString(neighborhoodNameColumn);
+
+                        var walker = new  Walker()
+                        {
+                            Id = idValue,
+                            Name = NameValue,
+                            NeighborhoodId = neighborhoodValue,
+                            Neighborhood = new Neighborhood()
+                            {
+                                Id = neighborhoodValue,
+                                Name = neighborhoodNameValue
+                            }
+                        };
+
+                        allWalkers.Add(walker);
+                    }
+
+                    reader.Close();
+
+                    return allWalkers;
+                }
+            }
+        }
+
+        //Query the database for all the Walkers.
     }
 }

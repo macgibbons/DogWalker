@@ -1,4 +1,7 @@
 ﻿using System;
+using DogWalker.Data;
+using DogWalker.Models;
+using System.Collections.Generic;
 
 namespace DogWalker
 {
@@ -6,7 +9,18 @@ namespace DogWalker
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            WalkerRepository walkerRepo = new WalkerRepository();
+
+            Console.WriteLine("Getting All Walkers:");
+            Console.WriteLine();
+
+            List<Walker> allWalkers = walkerRepo.GetAllWalkers();
+            
+
+            foreach (Walker walker in allWalkers)
+            {
+                Console.WriteLine($"{walker.Id}.) {walker.Name} Walks dogs in  {walker.Neighborhood.Name}.");
+            }
         }
     }
 }
