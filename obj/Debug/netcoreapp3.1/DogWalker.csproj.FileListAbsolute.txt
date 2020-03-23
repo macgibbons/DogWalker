@@ -1,0 +1,4 @@
+C:\Users\Mac Gibbons\source\repos\DogWalker\DogWalker\bin\Debug\netcoreapp3.1\DogWalker.exe
+C:\Users\Mac Gibbons\source\repos\DogWalker\DogWalker\obj\Debug\netcoreapp3.1\DogWalker.csprojAssemblyReference.cache
+C:\Users\Mac Gibbons\source\repos\DogWalker\DogWalker\obj\Debug\netcoreapp3.1\DogWalker.AssemblyInfoInputs.cache
+C:\Users\Mac Gibbons\source\repos\DogWalker\DogWalker\obj\Debug\netcoreapp3.1\DogWalker.AssemblyInfo.cs
