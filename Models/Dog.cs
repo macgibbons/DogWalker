@@ -12,5 +12,9 @@ namespace DogWalker.Models
         public String Breed { get; set; }
         public string Notes { get; set; }
         public OWNER Owner { get; set; }
+        public void walk(Walker walker, OWNER Owner, DateTime date, int duration)
+        {
+            Console.WriteLine($"{walker.Name} took on a {duration} minute walk.");
+        }
     }
 }

@@ -70,7 +70,7 @@ namespace DogWalker
             Console.Clear();
 
             Console.WriteLine("----Showing all Owners----");
-            List<OWNER> allOwners =ownerRepo.GetAlOwners();
+            List<OWNER> allOwners = ownerRepo.GetAlOwners();
             List<Dog> allDogs = dogRepo.GetAllDogs();
 
             foreach (var o in allOwners)
@@ -108,7 +108,7 @@ namespace DogWalker
             OWNER NewOwner = new OWNER
             {
                 Name = newOwnerName,
-                Phone = newOwnerPhone, 
+                Phone = newOwnerPhone,
                 Address = newOwnerAddress,
                 NeighborhoodId = NewOwnerNeighborhoodId
             };
@@ -120,12 +120,28 @@ namespace DogWalker
 
             Console.ReadLine();
             Console.Clear();
-
-            
-            foreach (var d in allDogs)
+            WalksRepository walksRepo = new WalksRepository();
+            Console.WriteLine("Chose a dog walker");
+            foreach (var walker in allWalkers)
             {
-
+                Console.WriteLine($"{walker.Id}.) {walker.Name}");
             }
+            var walkerChoice = walkerRepo.GetWalkerById(int.Parse(Console.ReadLine()));
+            Console.WriteLine($"{walkerChoice.Name} will walk all of who's dogs?");
+            foreach (var owner in allOwners)
+            {
+                Console.WriteLine($"{owner.Id}.) {owner.Name}");
+            }
+            var ownerChoice = ownerRepo.GetOwnerById(int.Parse(Console.ReadLine()));
+
+            Console.WriteLine("For how long?");
+            var durationChoice = int.Parse(Console.ReadLine());
+
+            walksRepo.addWalk(walkerChoice, DateTime.Now, ownerChoice , durationChoice);
+
+            Console.WriteLine($"{walkerChoice.Name} just walked {ownerChoice.Name}'s dogs for {durationChoice} minutes on {DateTime.Now.ToString()} ");
+            
+        
         }
     }
 }

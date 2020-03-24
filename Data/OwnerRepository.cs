@@ -82,6 +82,74 @@ namespace DogWalker.Data
             }
         }
 
+        public OWNER GetOwnerById(int ownerId)
+
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT o.Id, o.[Name], o.NeighborhoodId, o.Phone, o.[Address], n.Id, n.[Name] AS NeighborhoodName
+                        FROM [OWNER] o
+                        LEFT JOIN Neighborhood n
+                        ON o.NeighborhoodId = n.Id
+                        WHERE o.Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", ownerId));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+                    if (reader.Read())
+                    {
+                        int idColumn = reader.GetOrdinal("Id");
+                        int idValue = reader.GetInt32(idColumn);
+
+                        int NameColumn = reader.GetOrdinal("Name");
+                        string NameValue = reader.GetString(NameColumn);
+
+                        int PhoneColumn = reader.GetOrdinal("Phone");
+                        string PhoneValue = reader.GetString(PhoneColumn);
+
+                        int AddressColumn = reader.GetOrdinal("Address");
+                        string AddressValue = reader.GetString(AddressColumn);
+
+                        int neighborhoodIdColumn = reader.GetOrdinal("NeighborhoodId");
+                        int neighborhoodValue = reader.GetInt32(neighborhoodIdColumn);
+
+                        int neighborhoodNameColumn = reader.GetOrdinal("NeighborhoodName");
+                        string neighborhoodNameValue = reader.GetString(neighborhoodNameColumn);
+
+                        var owner = new OWNER()
+                        {
+                            Id = idValue,
+                            Name = NameValue,
+                            Phone = PhoneValue,
+                            Address = AddressValue,
+                            NeighborhoodId = neighborhoodValue,
+                            Neighborhood = new Neighborhood()
+                            {
+                                Id = neighborhoodValue,
+                                Name = neighborhoodNameValue
+                            }
+                        };
+
+
+                        reader.Close();
+
+                        return owner;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
         public void AddOwner(OWNER owner)
         {
             using (SqlConnection conn = Connection)

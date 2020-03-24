@@ -6,7 +6,7 @@ using DogWalker.Models;
 
 namespace DogWalker.Data
 {
-   public class DogRepository
+    public class DogRepository
     {
         public SqlConnection Connection
         {
@@ -65,7 +65,7 @@ namespace DogWalker.Data
                             Id = idValue,
                             Name = NameValue,
                             Notes = NotesValue,
-                            
+
                             OwnerId = ownerIdValue,
                             Owner = new OWNER()
                             {
@@ -85,7 +85,7 @@ namespace DogWalker.Data
                 }
             }
         }
-        public Dog GetDogByOwner(int ownerId)
+        public List<Dog> GetDogByOwner(int ownerId)
 
         {
 
@@ -106,8 +106,9 @@ namespace DogWalker.Data
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
+                    List<Dog> ownersDogs = new List<Dog>();
 
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         int idColumn = reader.GetOrdinal("Id");
                         int idValue = reader.GetInt32(idColumn);
@@ -138,16 +139,18 @@ namespace DogWalker.Data
                         };
 
 
-                        reader.Close();
 
-                        return dog;
+
+                        ownersDogs.Add(dog);
                     }
-                    else
-                    {
-                        return null;
-                    }
+                    reader.Close();
+
+                    return ownersDogs;
                 }
             }
         }
     }
-}
+
+
+    }
+

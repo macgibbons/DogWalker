@@ -137,6 +137,65 @@ namespace DogWalker.Data
             }
         }
 
+        public Walker GetWalkerById(int walkerId)
+
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Id, n.Name AS NeighborhoodName
+                        FROM Walker w
+                        LEFT JOIN Neighborhood n
+                        ON w.NeighborhoodId = n.Id
+                        WHERE w.Id = @id";
+
+                    cmd.Parameters.Add(new SqlParameter("@id", walkerId));
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+
+                    if (reader.Read())
+                    {
+                        int idColumn = reader.GetOrdinal("Id");
+                        int idValue = reader.GetInt32(idColumn);
+
+                        int WalkerNameColumn = reader.GetOrdinal("Name");
+                        string WalkerNameValue = reader.GetString(WalkerNameColumn);
+
+                        int neighborhoodIdColumn = reader.GetOrdinal("NeighborhoodId");
+                        int neighborhoodIdValue = reader.GetInt32(neighborhoodIdColumn);
+
+                        int neighborhoodNameColumn = reader.GetOrdinal("NeighborhoodName");
+                        string neighborhoodNameValue = reader.GetString(neighborhoodNameColumn);
+
+                        var walker = new Walker()
+                        {
+                            Id = idValue,
+                            Name = WalkerNameValue,
+                            NeighborhoodId = neighborhoodIdValue,
+                            Neighborhood = new Neighborhood()
+                            {
+                                Id = neighborhoodIdValue,
+                                Name = neighborhoodNameValue
+                            }
+                        };
+
+
+                        reader.Close();
+
+                        return walker;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
         //Insert a new dog walker into the database
         public void AddWalker(Walker walker)
         {
