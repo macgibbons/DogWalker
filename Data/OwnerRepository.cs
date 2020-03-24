@@ -82,5 +82,31 @@ namespace DogWalker.Data
             }
         }
 
+        public void AddOwner(OWNER owner)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO OWNER (Name, Phone, Address, NeighborhoodId)
+                        OUTPUT INSERTED.Id
+                        VALUES (@Name, @Phone, @Address,  @NeighborhoodId)";
+                    cmd.Parameters.Add(new SqlParameter("@Name", owner.Name));
+                    cmd.Parameters.Add(new SqlParameter("@Phone", owner.Phone));
+                    cmd.Parameters.Add(new SqlParameter("@Address", owner.Address));
+                    cmd.Parameters.Add(new SqlParameter("@NeighborhoodId", owner.NeighborhoodId));
+
+                    int id = (int)cmd.ExecuteScalar();
+
+                    owner.Id = id;
+
+
+
+
+                }
+            }
+        }
     }
 }

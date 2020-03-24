@@ -79,6 +79,36 @@ namespace DogWalker
                 Console.WriteLine();
             }
 
+            Console.WriteLine("---- Add a new Owner ----");
+            Console.WriteLine();
+            Console.WriteLine("What is their name?");
+            var newOwnerName = Console.ReadLine();
+            Console.WriteLine($"What is {newOwnerName}'s phone number?");
+            var newOwnerPhone = Console.ReadLine();
+            Console.WriteLine($"What is {newOwnerName}'s Address?");
+            var newOwnerAddress = Console.ReadLine();
+            Console.WriteLine($"What neighborhood does {newOwnerName} live in?");
+            foreach (var n in allNeighborhoods)
+            {
+                Console.WriteLine($"{n.Id} {n.Name}");
+            }
+
+            var NewOwnerNeighborhoodId = int.Parse(Console.ReadLine());
+            OWNER NewOwner = new OWNER
+            {
+                Name = newOwnerName,
+                Phone = newOwnerPhone, 
+                Address = newOwnerAddress,
+                NeighborhoodId = NewOwnerNeighborhoodId
+            };
+
+            ownerRepo.AddOwner(NewOwner);
+
+
+            Console.WriteLine($"{NewOwner.Name} has been added!");
+
+            Console.ReadLine();
+            Console.Clear();
 
         }
     }
