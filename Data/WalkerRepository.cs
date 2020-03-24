@@ -16,7 +16,7 @@ namespace DogWalker.Data
                 return new SqlConnection(_connectionString);
             }
         }
-
+        //Query the database for all the Walkers.
         public List<Walker> GetAllWalkers()
         {
             
@@ -75,7 +75,7 @@ namespace DogWalker.Data
             }
         }
 
-       
+       //Find all the dog walkers in the database who work in specific neighborhood.
         public Walker GetWalkerByNeighborhood(int neighborhoodId)
 
         {
@@ -136,6 +136,32 @@ namespace DogWalker.Data
                 }
             }
         }
-        //Query the database for all the Walkers.
+
+        //Insert a new dog walker into the database
+        public void AddWalker(Walker walker)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Walker (Name, NeighborhoodId)
+                        OUTPUT INSERTED.Id
+                        VALUES (@Name,  @NeighborhoodId)";
+                    cmd.Parameters.Add(new SqlParameter("@Name", walker.Name));
+                    cmd.Parameters.Add(new SqlParameter("@NeighborhoodId", walker.NeighborhoodId));
+                    int id = (int)cmd.ExecuteScalar();
+
+                    walker.Id = id;
+
+
+
+
+                }
+            }
+
+            // when this method is finished we can look in the database and see the new department.
+        }
     }
 }

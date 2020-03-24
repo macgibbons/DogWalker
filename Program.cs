@@ -39,6 +39,31 @@ namespace DogWalker
 
             Console.WriteLine($"---- Dog walkers in {singleWalker.Neighborhood.Name} ----");
             Console.WriteLine($"{singleWalker.Id}.) {singleWalker.Name} ");
+
+            Console.ReadLine();
+            Console.Clear();
+
+            Console.WriteLine("---- Add a new Walker ----");
+            Console.WriteLine();
+            Console.WriteLine("What is their name?");
+            var NewWalkerName = Console.ReadLine();
+            Console.WriteLine($"What neighborhood does {NewWalkerName} work in?");
+            foreach (var n in allNeighborhoods)
+            {
+                Console.WriteLine($"{n.Id} {n.Name}");
+            }
+
+            var NewWalkerNeighborhoodId = int.Parse(Console.ReadLine());
+            Walker NewWalker = new Walker
+            {
+                Name = NewWalkerName,
+                NeighborhoodId = NewWalkerNeighborhoodId
+            };
+
+            walkerRepo.AddWalker(NewWalker);
+
+            Console.WriteLine($"{NewWalker.Name} has been added!");
+
         }
     }
 }
