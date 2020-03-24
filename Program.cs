@@ -36,8 +36,9 @@ namespace DogWalker
 
             var userInput = int.Parse(Console.ReadLine());
             Walker singleWalker = walkerRepo.GetWalkerByNeighborhood(userInput);
-         
-            Console.WriteLine($"{singleWalker.Id}.) {singleWalker.Name} {singleWalker.Neighborhood.Name}");
+
+            Console.WriteLine($"---- Dog walkers in {singleWalker.Neighborhood.Name} ----");
+            Console.WriteLine($"{singleWalker.Id}.) {singleWalker.Name} ");
         }
     }
 }

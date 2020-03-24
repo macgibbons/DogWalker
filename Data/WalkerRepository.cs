@@ -27,7 +27,7 @@ namespace DogWalker.Data
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Id, n.Name
+                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Id, n.Name AS NeighborhoodName
                         FROM Walker w
                         LEFT JOIN Neighborhood n
                         ON w.NeighborhoodId = n.Id";
@@ -39,7 +39,6 @@ namespace DogWalker.Data
 
                     while (reader.Read())
                     {
-                        // Get ordinal returns us what "position" the Id column is in
                         int idColumn = reader.GetOrdinal("Id");
                         int idValue = reader.GetInt32(idColumn);
 
@@ -51,7 +50,7 @@ namespace DogWalker.Data
                         int neighborhoodIdColumn = reader.GetOrdinal("NeighborhoodId");
                         int neighborhoodValue = reader.GetInt32(neighborhoodIdColumn);
 
-                        int neighborhoodNameColumn = reader.GetOrdinal("Name");
+                        int neighborhoodNameColumn = reader.GetOrdinal("NeighborhoodName");
                         string neighborhoodNameValue = reader.GetString(neighborhoodNameColumn);
 
                         var walker = new  Walker()
@@ -88,7 +87,7 @@ namespace DogWalker.Data
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Id, n.Name
+                        SELECT w.Id, w.Name, w.NeighborhoodId, n.Id, n.Name AS NeighborhoodName
                         FROM Walker w
                         LEFT JOIN Neighborhood n
                         ON w.NeighborhoodId = n.Id
@@ -110,7 +109,7 @@ namespace DogWalker.Data
                         int neighborhoodIdColumn = reader.GetOrdinal("NeighborhoodId");
                         int neighborhoodIdValue = reader.GetInt32(neighborhoodIdColumn);
 
-                        int neighborhoodNameColumn = reader.GetOrdinal("Name");
+                        int neighborhoodNameColumn = reader.GetOrdinal("NeighborhoodName");
                         string neighborhoodNameValue = reader.GetString(neighborhoodNameColumn);
 
                         var walker = new Walker()
