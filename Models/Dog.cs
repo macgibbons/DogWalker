@@ -11,5 +11,6 @@ namespace DogWalker.Models
         public int OwnerId { get; set; }
         public String Breed { get; set; }
         public string Notes { get; set; }
+        public OWNER Owner { get; set; }
     }
 }

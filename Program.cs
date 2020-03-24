@@ -12,6 +12,8 @@ namespace DogWalker
             WalkerRepository walkerRepo = new WalkerRepository();
             NeighborhoodRepository neighborhoodRepo = new NeighborhoodRepository();
             OwnerRepository ownerRepo = new OwnerRepository();
+            DogRepository dogRepo = new DogRepository();
+
 
             Console.WriteLine("Getting All Walkers:");
             Console.WriteLine();
@@ -69,6 +71,7 @@ namespace DogWalker
 
             Console.WriteLine("----Showing all Owners----");
             List<OWNER> allOwners =ownerRepo.GetAlOwners();
+            List<Dog> allDogs = dogRepo.GetAllDogs();
 
             foreach (var o in allOwners)
             {
@@ -76,6 +79,14 @@ namespace DogWalker
                 Console.WriteLine($"{o.Name} lives in {o.Neighborhood.Name}");
                 Console.WriteLine($"{o.Address}");
                 Console.WriteLine($"{o.Phone}");
+                Console.WriteLine("---- Dogs ----");
+                foreach (var d in allDogs)
+                {
+                    if (d.OwnerId == o.Id)
+                    {
+                        Console.WriteLine($"{d.Name}");
+                    }
+                }
                 Console.WriteLine();
             }
 
@@ -110,6 +121,11 @@ namespace DogWalker
             Console.ReadLine();
             Console.Clear();
 
+            
+            foreach (var d in allDogs)
+            {
+
+            }
         }
     }
 }
